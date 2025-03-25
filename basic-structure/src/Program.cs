@@ -11,6 +11,7 @@ namespace src
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddSession();
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<ProjectDbContext>(options =>
             {
@@ -31,6 +32,8 @@ namespace src
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession();
 
             app.UseAuthorization();
 
