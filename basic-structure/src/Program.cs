@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using src.Data;
+using static src.Data.BasicStructureDbContext;
+
 namespace src
 {
     public class Program
@@ -8,6 +12,14 @@ namespace src
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<ProjectDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("Default"),
+                    sqlServerOptionsAction: sqlOptions =>
+                    {
+                        sqlOptions.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                    });
+            });
 
             var app = builder.Build();
 
