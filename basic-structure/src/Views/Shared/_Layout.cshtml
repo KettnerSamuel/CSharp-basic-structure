@@ -3,16 +3,19 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - src</title>
+    <title>Web App</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/src.styles.css" asp-append-version="true" />
 </head>
 <body>
+    @{
+        var userId = Context.Session.GetInt32("UserId");
+    }
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">src</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Web App</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -22,9 +25,27 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav ms-auto">
+                                @if (userId.HasValue)
+                                {
+                                    <li class="nav-item">
+                                        <form asp-controller="User" asp-action="Logout" method="post">
+                                            <button type="submit" class="btn btn-danger btn-sm me-2">Odhlásit se</button>
+                                        </form>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="nav-item">
+                                        <a asp-controller="User" asp-action="Login" class="btn btn-primary btn-sm me-2">Přihlásit se</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="User" asp-action="Register" class="btn btn-success btn-sm">Registrovat</a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
                     </ul>
                 </div>
             </div>
@@ -37,8 +58,8 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - src - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="container text-center">
+            &copy; 2025 - Jméno Autora - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
