@@ -1,0 +1,90 @@
+﻿@model src.Models.User
+@{
+    ViewData["Title"] = "Profil uživatele";
+}
+
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="p-4 bg-white rounded">
+                <h2 class="text-center mb-4 text-primary">Profil uživatele</h2>
+
+                <table class="table table-bordered table-hover">
+                    <tbody>
+                        <tr>
+                            <th class="bg-light">Jméno: @Model.Username</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <form method="post" asp-controller="User" asp-action="ChangeUsername" class="mt-3">
+                    <div class="mb-3">
+                        <label for="newUsername" class="form-label fw-bold">Nové jméno</label>
+                        <input type="text" class="form-control" id="newUsername" name="newUsername" 
+                               autocomplete="off" required maxlength="50" 
+                               pattern="[A-Za-z0-9_-]+" title="Použijte pouze písmena, číslice, pomlčky a podtržítka">
+                    </div>
+                    @if (ViewData["UsernameError"] != null)
+                    {
+                        <div class="text-danger">
+                            @ViewData["UsernameError"]
+                        </div>
+                    }
+                    <button type="submit" class="btn btn-primary w-100 mt-3">Změnit jméno</button>
+                    @Html.AntiForgeryToken()
+                </form>
+                
+                <h4 class="mt-4 pt-3 border-top text-secondary">Změna hesla</h4>
+
+                @if (ViewData["PasswordError"] != null)
+                {
+                    <div class="text-danger">
+                        @ViewData["PasswordError"]
+                    </div>
+                }
+                
+                <form method="post" asp-action="ChangePassword" asp-controller="User" class="mt-3" id="passwordForm">
+                    <div class="mb-3">
+                        <label for="currentPassword" class="form-label fw-bold">Stávající heslo</label>
+                        <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="newPassword" class="form-label fw-bold">Nové heslo</label>
+                        <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label fw-bold">Znovu nové heslo</label>
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                        <div id="passwordMismatch" class="invalid-feedback">Nová hesla se neshodují!</div>
+                    </div>
+                    <button type="submit" class="btn btn-secondary w-100 mt-3">Změnit heslo</button>
+                </form>
+                
+                <div class="mt-4 border-top">
+                    <form method="post" asp-action="DeleteAccount" asp-controller="User" onsubmit="return confirm('Opravdu chcete smazat svůj účet?')" class="mt-4">
+                        <button type="submit" class="btn btn-danger w-100 mt-3">Smazat účet</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+document.getElementById('passwordForm').addEventListener('submit', function(event) {
+    const newPassword = document.getElementById('newPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const mismatchElement = document.getElementById('passwordMismatch');
+    
+    if (newPassword !== confirmPassword) {
+        event.preventDefault();
+        document.getElementById('confirmPassword').classList.add('is-invalid');
+        mismatchElement.style.display = 'block';
+    } else {
+        document.getElementById('confirmPassword').classList.remove('is-invalid');
+        mismatchElement.style.display = 'none';
+    }
+});
+</script>
+}

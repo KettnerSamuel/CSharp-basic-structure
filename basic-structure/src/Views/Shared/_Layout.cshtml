@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/src.styles.css" asp-append-version="true" />
+    <style>
+        .text-danger li::marker {
+            content: none;
+        }
+    </style>
 </head>
 <body>
     @{
@@ -25,6 +30,13 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
+                        @if (userId.HasValue){
+                            <li class="nav-item">
+                                <form method="post" asp-controller="User" asp-action="Profile">
+                                    <button type="submit" class="nav-link text-dark btn btn-link">Uživatelský profil</button>
+                                </form>
+                            </li>
+                        }
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav ms-auto">
                                 @if (userId.HasValue)

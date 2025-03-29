@@ -1,12 +1,12 @@
 ﻿@model RegisterViewModel
 
 <div class="d-flex justify-content-center max-vh-100">
-    <form asp-controller="User" asp-action="Register" method="post" class="p-4 border rounded shadow-sm" style="max-width: 400px; width: 100%;">
+    <form asp-controller="User" asp-action="Register" method="post" class="p-4 border rounded shadow-sm" style="max-width: 370px; width: 100%;">
         <h3 class="text-center mb-4">Registrace</h3>
 
         <div class="mb-3">
             <label asp-for="Username" class="form-label">Uživatelské jméno</label>
-            <input asp-for="Username" class="form-control" placeholder="Uživatelské jméno" />
+            <input asp-for="Username" class="form-control" autocomplete="off" placeholder="Uživatelské jméno" />
             <span asp-validation-for="Username" class="text-danger"></span>
         </div>
 

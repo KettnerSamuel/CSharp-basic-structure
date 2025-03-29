@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using src.Data;
 using src.Models;
 using static src.Data.BasicStructureDbContext;
 
@@ -11,6 +14,68 @@ namespace src.Controllers
         public UserController(ProjectDbContext context)
         {
             _context = context;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeUsername(string newUsername)
+        {
+            User? currentUser = _context.Users.Where(u => u.Id == HttpContext.Session.GetInt32("UserId")).FirstOrDefault();
+            if (currentUser == null)
+            {
+                return RedirectToAction("Login");
+            }
+            if (!_context.Users.Where(u => u.Username == newUsername && u.Id != currentUser.Id).IsNullOrEmpty())
+            {
+                ViewData["UsernameError"] = "Uživatel s tímto jménem již existuje";
+                return View("Profile", currentUser);
+            }
+            currentUser.Username = newUsername;
+            await _context.SaveChangesAsync();
+            return View("Profile", currentUser);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(string currentPassword, string newPassword)
+        {
+            User? currentUser = _context.Users.Where(u => u.Id == HttpContext.Session.GetInt32("UserId")).FirstOrDefault();
+            if (currentUser == null)
+            {
+                return RedirectToAction("Login");
+            }
+            if (!BCrypt.Net.BCrypt.Verify(currentPassword, currentUser.Password))
+            {
+                ViewData["PasswordError"] = "Nesprávné heslo";
+                return View("Profile", currentUser);
+            }
+            currentUser.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
+            await _context.SaveChangesAsync();
+            return View("Profile", currentUser);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteAccountAsync()
+        {
+            User? currentUser = _context.Users.Where(u => u.Id == HttpContext.Session.GetInt32("UserId")).FirstOrDefault();
+
+            if (currentUser == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            _context.Users.Remove(currentUser);
+            await _context.SaveChangesAsync();
+
+            // Odhlášení po smazání účtu
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public IActionResult profile()
+        {
+            User? currentUser = _context.Users.Where(u => u.Id == HttpContext.Session.GetInt32("UserId")).FirstOrDefault();
+
+            return View(currentUser);
         }
 
         [HttpGet]
@@ -27,7 +92,7 @@ namespace src.Controllers
                 return View(model);
             }
 
-            if (await _context.Users.AnyAsync(u => u.Username == model.Username))
+            if (_context.Users.FirstOrDefault(u => u.Username == model.Username) != null)
             {
                 // Přidání specifické chyby k poli Username
                 ModelState.AddModelError("Username", "Uživatel s tímto jménem již existuje");

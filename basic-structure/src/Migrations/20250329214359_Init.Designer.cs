@@ -11,8 +11,8 @@ using src.Data;
 namespace src.Migrations
 {
     [DbContext(typeof(BasicStructureDbContext.ProjectDbContext))]
-    [Migration("20250325120756_4")]
-    partial class _4
+    [Migration("20250329214359_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,7 +41,8 @@ namespace src.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("SQL_Latin1_General_CP1_CS_AS");
 
                     b.HasKey("Id");
 
