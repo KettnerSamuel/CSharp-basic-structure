@@ -51,30 +51,6 @@ Tento příkaz vytvoří databázi podle definovaných migrací a aplikuje zákl
    Add-Migration AddProducts
    Update-Database
 
-<!-- Views/Product/Index.cshtml -->
-@model List<Product>
-
-<h1>Katalog produktů</h1>
-
-<table class="table">
-    <tr>
-        <th>Název</th>
-        <th>Cena</th>
-        <th></th>
-    </tr>
-    @foreach (var product in Model)
-    {
-        <tr>
-            <td>@product.Name</td>
-            <td>@product.Price Kč</td>
-            <td>
-                <a asp-action="Detail" asp-route-id="@product.Id">Detail</a>
-            </td>
-        </tr>
-    }
-</table>
-```
-
 4. **Vytvoř controler (obsluha stránek):
 csharpCopy// Controllers/ProductController.cs
 public class ProductController : Controller
@@ -102,27 +78,6 @@ public class ProductController : Controller
 Vytvoř pohledy (vzhled stránek):
 htmlCopy<!-- Views/Product/Index.cshtml -->
 @model List<Product>
-
-<h1>Katalog produktů</h1>
-
-<table class="table">
-    <tr>
-        <th>Název</th>
-        <th>Cena</th>
-        <th></th>
-    </tr>
-    @foreach (var product in Model)
-    {
-        <tr>
-            <td>@product.Name</td>
-            <td>@product.Price Kč</td>
-            <td>
-                <a asp-action="Detail" asp-route-id="@product.Id">Detail</a>
-            </td>
-        </tr>
-    }
-</table>
-
 
 Shrnutí
 
