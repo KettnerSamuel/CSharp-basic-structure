@@ -52,46 +52,46 @@ Tento příkaz vytvoří databázi podle definovaných migrací a aplikuje zákl
    Update-Database
 
 4. **Vytvoř controler (obsluha stránek):
-csharpCopy// Controllers/ProductController.cs
-public class ProductController : Controller
-{
-    private readonly BasicStructureDbContext _context;
-    
-    public ProductController(BasicStructureDbContext context)
-    {
-        _context = context;
-    }
-    
-    public IActionResult Index()
-    {
-        var products = _context.Products.ToList(); // Načti produkty
-        return View(products); // Předej je do pohledu
-    }
-    
-    public IActionResult Detail(int id)
-    {
-        var product = _context.Products.Find(id);
-        return View(product);
-    }
-}
+   csharpCopy// Controllers/ProductController.cs
+   public class ProductController : Controller
+   {
+       private readonly BasicStructureDbContext _context;
+       
+       public ProductController(BasicStructureDbContext context)
+       {
+           _context = context;
+       }
+       
+       public IActionResult Index()
+       {
+           var products = _context.Products.ToList(); // Načti produkty
+           return View(products); // Předej je do pohledu
+       }
+       
+       public IActionResult Detail(int id)
+       {
+           var product = _context.Products.Find(id);
+           return View(product);
+       }
+   }
 
-Vytvoř pohledy (vzhled stránek):
-htmlCopy<!-- Views/Product/Index.cshtml -->
-@model List<Product>
-
-Shrnutí
-
-Controllers = co se stane při návštěvě URL (akce)
-Models = data a databázové tabulky
-Views = jak stránky vypadají (HTML)
-Data = propojení s databází
-
-Když přidáváš novou funkci, vytvoř:
-
-Model (data)
-Kontroler (akce)
-Pohledy (vzhled)
-Migraci (aktualizace databáze)
+5. Vytvoř pohledy (vzhled stránek):
+   htmlCopy<!-- Views/Product/Index.cshtml -->
+   @model List<Product>
+   
+## Shrnutí
+   
+   Controllers = co se stane při návštěvě URL (akce)
+   Models = data a databázové tabulky
+   Views = jak stránky vypadají (HTML)
+   Data = propojení s databází
+   
+   Když přidáváš novou funkci, vytvoř:
+   
+   Model (data)
+   Kontroler (akce i pro zpracování dat z databáze)
+   Pohledy (vzhled)
+   Migraci (aktualizace databáze)
 
 ## struktura 
 ### Controllers
