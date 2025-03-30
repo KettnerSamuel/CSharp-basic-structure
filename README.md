@@ -139,6 +139,6 @@ Projekt již obsahuje následující implementované funkce:
 Před finalizací projektu nezapomeňte:
 
 1. Přepsat obsah stránky Privacy Policy (Views/Home/Privacy.cshtml)
-2. Upravit nebo odstranit nepotřebné části kódu
-3. Přizpůsobit design a obsah projektu dle vašich požadavků
+2. přepsat v layoutu dole v patičce autora
+3. pokud chcete, můžete si pojmenovat databázi a věci jinak, ale jestli si to rozbijete, je to na vás.
 4. Přepsat tento README soubor dle specifik vašeho projektu
