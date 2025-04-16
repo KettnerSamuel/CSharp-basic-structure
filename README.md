@@ -1,6 +1,6 @@
 # ASP.NET Core Maturita Starter Project
 
-Tato struktura projektu slouží jako základ pro vypracování maturitní práce v ASP.NET Core. Projekt obsahuje již připravenou základní funkcionalitu pro autentizaci uživatelů, správu účtů a základní strukturu MVC. vše je dělané i s chybovými hláškami.
+Tato struktura projektu slouží jako základ pro pracování v ASP.NET Core. Projekt obsahuje již připravenou základní funkcionalitu pro autentizaci uživatelů, správu účtů a základní strukturu MVC. vše je dělané i s chybovými hláškami.
 
 ## Požadavky pro spuštění
 
